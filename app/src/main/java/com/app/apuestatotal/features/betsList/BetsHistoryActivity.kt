@@ -10,9 +10,7 @@ import com.app.apuestatotal.R
 class BetsHistoryActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         setContentView(R.layout.activity_bets_history)
-
 
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()

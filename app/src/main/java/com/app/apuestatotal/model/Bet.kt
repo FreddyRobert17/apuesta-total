@@ -11,4 +11,8 @@ data class Bet(
     val odds: Double,
     val type: String,
     val account: String
-)
+){
+    companion object{
+        const val GAME_NUMBER = "game_number"
+    }
+}

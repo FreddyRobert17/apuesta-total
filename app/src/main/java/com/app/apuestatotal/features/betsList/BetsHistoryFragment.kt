@@ -11,6 +11,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.app.apuestatotal.R
 import com.app.apuestatotal.adapters.BetAdapter
+import com.app.apuestatotal.features.betDetail.BetDetailFragment
+import com.app.apuestatotal.model.Bet
 import com.app.apuestatotal.repository.BetRepository
 
 class BetsHistoryFragment : Fragment() {
@@ -33,7 +35,9 @@ class BetsHistoryFragment : Fragment() {
 
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
-        adapter = BetAdapter(emptyList())
+        adapter = BetAdapter(emptyList()){
+            navigateToBetDetailFragment(it)
+        }
 
         recyclerView.adapter = adapter
 
@@ -45,6 +49,19 @@ class BetsHistoryFragment : Fragment() {
         betsListViewModel.fetchBets()
 
         return view
+    }
+
+    private fun navigateToBetDetailFragment(bet: Bet) {
+        val betDetailFragment = BetDetailFragment()
+
+        val bundle = Bundle()
+        bundle.putString(Bet.GAME_NUMBER, bet.game)
+        betDetailFragment.arguments = bundle
+
+        requireActivity().supportFragmentManager.beginTransaction()
+            .replace(R.id.fragment_container, betDetailFragment)
+            .addToBackStack(null)
+            .commit()
     }
 }
 

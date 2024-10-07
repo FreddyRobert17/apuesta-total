@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.app.apuestatotal.R
 import com.app.apuestatotal.model.Bet
 
-class BetAdapter(var betList: List<Bet>) : RecyclerView.Adapter<BetAdapter.BetViewHolder>() {
+class BetAdapter(var betList: List<Bet>, private val listener: (Bet) -> Unit) : RecyclerView.Adapter<BetAdapter.BetViewHolder>() {
 
     class BetViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val betGameNumber: TextView = itemView.findViewById(R.id.betGameNumber)
@@ -24,10 +24,14 @@ class BetAdapter(var betList: List<Bet>) : RecyclerView.Adapter<BetAdapter.BetVi
 
     override fun onBindViewHolder(holder: BetViewHolder, position: Int) {
         val bet = betList[position]
-        holder.betGameNumber.text = bet.game
-        holder.betCreatedDate.text = bet.created_date
-        holder.betStatus.text = bet.status
-        holder.betWager.text = bet.wager.toString()
+        holder.betGameNumber.text = "N°: ${bet.game}"
+        holder.betCreatedDate.text = "Fecha de creación: ${bet.created_date}"
+        holder.betStatus.text = "Estado: ${bet.status}"
+        holder.betWager.text = "Apuesta: ${bet.wager.toString()}"
+
+        holder.itemView.setOnClickListener {
+            listener.invoke(bet)
+        }
     }
 
     override fun getItemCount(): Int = betList.size
