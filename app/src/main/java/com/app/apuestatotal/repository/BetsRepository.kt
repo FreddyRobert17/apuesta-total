@@ -10,7 +10,7 @@ import com.google.gson.reflect.TypeToken
 class BetRepository(private val context: Context) {
 
     fun getBets(): List<Bet> {
-        val betsJson = loadJSONFromAsset(context, "bets.json")
+        val betsJson = loadJSONFromAsset(context, "betsHistory.json")
 
         if (betsJson != null) {
             val gson = Gson()

@@ -15,10 +15,20 @@ class BetsListViewModel(private val repository: BetRepository) : ViewModel() {
     val bets: LiveData<List<Bet>>
         get() = _bets
 
+    private val _filteredBets = MutableLiveData<List<Bet>>()
+    val filteredBets: LiveData<List<Bet>>
+        get() = _filteredBets
+
     fun fetchBets() {
         viewModelScope.launch(Dispatchers.IO) {
             val betList = repository.getBets()
             _bets.postValue(betList)
         }
+    }
+
+    fun filterBets(status: String = "approved") {
+        val currentBets = _bets.value ?: emptyList()
+        val filteredList = currentBets.filter { it.status != status }
+        _filteredBets.postValue(filteredList)
     }
 }
