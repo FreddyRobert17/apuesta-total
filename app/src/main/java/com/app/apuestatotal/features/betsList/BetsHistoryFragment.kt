@@ -64,7 +64,7 @@ class BetsHistoryFragment : Fragment() {
         filterSpinner = requireView().findViewById(R.id.spinnerFilter)
 
         val filterOptions = arrayOf("Todos", Bet.WON_STATUS, Bet.LOST_STATUS, Bet.OPEN_STATUS)
-        val spinnerAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, filterOptions)
+        val spinnerAdapter = ArrayAdapter(requireContext(), R.layout.spinner_item, filterOptions)
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         filterSpinner.adapter = spinnerAdapter
 
