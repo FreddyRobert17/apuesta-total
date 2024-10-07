@@ -4,6 +4,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.Spinner
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
@@ -19,6 +22,7 @@ class BetsHistoryFragment : Fragment() {
 
     private lateinit var betsListViewModel: BetsListViewModel
     private lateinit var adapter: BetAdapter
+    private lateinit var filterSpinner: Spinner
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -49,6 +53,44 @@ class BetsHistoryFragment : Fragment() {
         betsListViewModel.fetchBets()
 
         return view
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        initFilterView()
+    }
+
+    private fun initFilterView() {
+        filterSpinner = requireView().findViewById(R.id.spinnerFilter)
+
+        val filterOptions = arrayOf("Todos", Bet.WON_STATUS, Bet.LOST_STATUS, Bet.OPEN_STATUS)
+        val spinnerAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, filterOptions)
+        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        filterSpinner.adapter = spinnerAdapter
+
+        filterSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
+                val selectedItem = filterOptions[position]
+                filterBets(selectedItem)
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>) {
+                //Nothing to do
+            }
+        }
+    }
+
+    private fun filterBets(selectedFilter: String) {
+        betsListViewModel.bets.value?.let { bets ->
+            val filteredList = when (selectedFilter) {
+                Bet.WON_STATUS -> bets.filter { it.status == Bet.WON_STATUS }
+                Bet.LOST_STATUS -> bets.filter { it.status == Bet.LOST_STATUS }
+                Bet.OPEN_STATUS -> bets.filter { it.status == Bet.OPEN_STATUS }
+                else -> bets
+            }
+            adapter.betList = filteredList
+            adapter.notifyDataSetChanged()
+        }
     }
 
     private fun navigateToBetDetailFragment(bet: Bet) {

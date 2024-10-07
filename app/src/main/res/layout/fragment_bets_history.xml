@@ -13,6 +13,12 @@
         android:layout_marginBottom="10dp"
         android:src="@drawable/logo"/>
 
+    <Spinner
+        android:id="@+id/spinnerFilter"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"/>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewBets"
         android:layout_width="match_parent"

@@ -14,5 +14,8 @@ data class Bet(
 ){
     companion object{
         const val GAME_NUMBER = "game_number"
+        const val WON_STATUS = "WON"
+        const val OPEN_STATUS = "OPEN"
+        const val LOST_STATUS = "LOST"
     }
 }
